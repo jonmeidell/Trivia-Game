@@ -8,7 +8,7 @@ var questions = [
     {
         question: "Who was not on the original X-Men team?",
         image: "assets/images/first.jpg",
-        answers: ["Ice Man", "Rogue", "Beast", "Agel"],
+        answers: ["Ice Man", "Rogue", "Beast", "Angel"],
         correct: "1"
     },
     {
@@ -18,16 +18,16 @@ var questions = [
         correct: "2"
     },
     {
-        question: "",
-        image: "",
-        answers: [""],
-        correct: ""
+        question: "Who is the father of Cable?",
+        image: "assets/images/cable.jpg",
+        answers: ["Cyclops", "Wolverine", "Ice Man", "Pyro"],
+        correct: "0"
     },
     {
-        question: "",
-        image: "",
-        answers: [""],
-        correct: ""
+        question: "Who was not born a mutant?",
+        image: "assets/images/deadpool.jpg",
+        answers: ["Angel", "Magneto", "Deadpool", "Rogue"],
+        correct: "2"
     }
 ];
 
@@ -35,33 +35,18 @@ var startGame = document.getElementById("startGame");
 var quizBody = document.getElementById("quizBody");
 var questions = document.getElementById("questions");
 var questionImages = document.getElementById("questionImages");
-var choiceA = document.getElementById("choiceA");
-var choiceB = document.getElementById("choiceB");
-var choiceC = document.getElementById("choiceC");
-var choiceD = document.getElementById("choiceD");
+var answers = document.getElementById("answers");
 var counter = document.getElementById("counter");
 var timeGauge = document.getElementById("timeGauge");
 var score = document.getElementById("score");
 var scoreContainer = document.getElementById("scoreContainer");
 var lastQuestion = questions.length - 1;
-let runningQuestion = 0;
-let count = 0;
 var questionTime = 10;
-var gaugeWidth = 150;
-var gaugeUnit = gaugeWidth / questionTime;
 let TIMER;
-let score = 0;
+var right = 0;
+var runningQuestion = 0;
 
-function renderQuestion() {
-    let q = questions[runningQuestion];
 
-    question.innerHTML = "<p>" + q.question + "</p>";
-    qImg.innerHTML = "<img src=" + q.imgSrc + ">";
-    choiceA.innerHTML = q.choiceA;
-    choiceB.innerHTML = q.choiceB;
-    choiceC.innerHTML = q.choiceC;
-    choiceD.innerHTML = q.choiceD;
-}
 
 start.addEventListener("click", startGame);
 $(".startButton").on("click", function() {
@@ -105,10 +90,10 @@ function renderCounter() {
 
 function checkAnswer(answer) {
     if (answer == questions[runningQuestion].correct) {
-        score++;
-        answerIsCorrect();
-    } else {
-        answerIsWrong();
+        right++;
+//        answerIsCorrect();
+//    } else {
+//        answerIsWrong();
     }
     count = 0;
     if (runningQuestion < lastQuestion) {
@@ -116,21 +101,21 @@ function checkAnswer(answer) {
         renderQuestion();
     } else {
         // end the quiz and show score
-        clearInterval(TIMER);
-        scoreRender();
+//        clearInterval(TIMER);
+        score();
     }
 }
 
-function answerIsCorrect() {
-    document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
-}
+//function answerIsCorrect() {
+//    document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
+//}
 
-function answerIsWrong() {
-    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
-}
+//function answerIsWrong() {
+//    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
+//}
 
-function scoreRender() {
+function score() {
     scoreDiv.style.display = "block";
-    const scorePerCent = Math.round(100 * score / questions.length);
+    const scorePerCent = Math.round(100 * right / questions.length);
     scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
 }
