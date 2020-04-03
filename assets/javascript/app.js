@@ -55,6 +55,14 @@ $(".startButton").on("click", function() {
     startGame();
 })
 
+// start timer
+// display questions (random order)?
+    // place in questions div
+// diplay answers in buttons
+// display question image after answer is chosen
+    // wait 4 seconds before going to next question
+// restart timer after each question
+
 function startGame() {
     runningQuestion = 0;
     start.style.display = "none";
@@ -64,6 +72,18 @@ function startGame() {
     renderCounter();
     TIMER = setInterval(renderCounter, 1000); // 1000ms = 1s
 }
+
+// set to restart after each question is answered
+var sec = 10
+var timer = setInterval(function() { 
+    //put in message of time remaining
+   $('#hideMsg span').text(sec--);
+   if (sec == -1) {
+      $('#hideMsg').fadeOut('fast');
+      clearInterval(timer);
+      // add in go to next question
+   }  
+}, 1000);
 
 // not sure if I want to keep
 function renderProgress() {
