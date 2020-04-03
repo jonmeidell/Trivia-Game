@@ -9,3 +9,7 @@ body {
 .startButton {
     align-content: center;
 }
+
+.container {
+    color: darkgray;
+}

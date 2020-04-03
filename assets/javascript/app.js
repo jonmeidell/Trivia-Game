@@ -48,13 +48,28 @@ var right = 0;
 let count
 var runningQuestion = 0;
 
+// look through all functions to find errors
+// make sure everything is defined
+// console log to check functionality
 
 
-start.addEventListener("click", startGame);
+startGame = function() {
+    runningQuestion = 0;
+    renderQuestion();
+    renderProgress();
+    renderCounter();
+    TIMER = setInterval(renderCounter, 1000); // 1000ms = 1s
+}
+
 $(".startButton").on("click", function() {
     startGame();
 })
 
+renderQuestion = function () {
+    // question array
+        // running question
+        // increment runningQuestion
+}
 // start timer
 // display questions (random order)?
     // place in questions div
@@ -63,15 +78,7 @@ $(".startButton").on("click", function() {
     // wait 4 seconds before going to next question
 // restart timer after each question
 
-function startGame() {
-    runningQuestion = 0;
-    start.style.display = "none";
-    renderQuestion();
-    quiz.style.display = "block";
-    renderProgress();
-    renderCounter();
-    TIMER = setInterval(renderCounter, 1000); // 1000ms = 1s
-}
+
 
 // set to restart after each question is answered
 var sec = 10
@@ -79,21 +86,20 @@ var timer = setInterval(function() {
     //put in message of time remaining
    $('#hideMsg span').text(sec--);
    if (sec == -1) {
-      $('#hideMsg').fadeOut('fast');
       clearInterval(timer);
       // add in go to next question
    }  
 }, 1000);
 
 // not sure if I want to keep
-function renderProgress() {
+renderProgress = function() {
     for (let quizProgress = 0; quizProgress <= lastQuestion; quizProgress++) {
         progress.innerHTML += "<div class='prog' id=" + quizProgress + "></div>";
     }
 }
 
 // not sure if I want to keep or just alter
-function renderCounter() {
+renderCounter = function() {
     if (count <= questionTime) {
         counter.innerHTML = count;
         timeGauge.style.width = count * gaugeUnit + "px";
@@ -108,17 +114,17 @@ function renderCounter() {
         } else {
             // end the quiz and show the score
             clearInterval(TIMER);
-            scoreRender();
+            score();
         }
     }
 }
 
-function checkAnswer(answer) {
+checkAnswer = function(answer) {
     if (answer == questions[runningQuestion].correct) {
         right++;
-//        answerIsCorrect();
-//    } else {
-//        answerIsWrong();
+        answerIsCorrect();
+    } else {
+        answerIsWrong();8
     }
     count = 0;
     if (runningQuestion < lastQuestion) {
@@ -139,7 +145,7 @@ function checkAnswer(answer) {
 //    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
 //}
 
-function score() {
+score = function() {
     scoreDiv.style.display = "block";
     const scorePerCent = Math.round(100 * right / questions.length);
     scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
