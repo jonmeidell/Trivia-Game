@@ -67,8 +67,8 @@ function startGame() {
 
 // not sure if I want to keep
 function renderProgress() {
-    for (let qIndex = 0; qIndex <= lastQuestion; qIndex++) {
-        progress.innerHTML += "<div class='prog' id=" + qIndex + "></div>";
+    for (let quizProgress = 0; quizProgress <= lastQuestion; quizProgress++) {
+        progress.innerHTML += "<div class='prog' id=" + quizProgress + "></div>";
     }
 }
 
