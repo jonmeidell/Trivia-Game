@@ -44,6 +44,8 @@ var lastQuestion = questions.length - 1;
 var questionTime = 10;
 let TIMER;
 var right = 0;
+// should I use let or var
+let count
 var runningQuestion = 0;
 
 
@@ -54,6 +56,7 @@ $(".startButton").on("click", function() {
 })
 
 function startGame() {
+    runningQuestion = 0;
     start.style.display = "none";
     renderQuestion();
     quiz.style.display = "block";
@@ -62,12 +65,14 @@ function startGame() {
     TIMER = setInterval(renderCounter, 1000); // 1000ms = 1s
 }
 
+// not sure if I want to keep
 function renderProgress() {
     for (let qIndex = 0; qIndex <= lastQuestion; qIndex++) {
         progress.innerHTML += "<div class='prog' id=" + qIndex + "></div>";
     }
 }
 
+// not sure if I want to keep or just alter
 function renderCounter() {
     if (count <= questionTime) {
         counter.innerHTML = count;
