@@ -33,12 +33,12 @@ var questions = [
 
 var startGame = document.getElementById("startGame");
 var quizBody = document.getElementById("quizBody");
-var questions = document.getElementById("questions");
+var questionsDiv = document.getElementById("questions");
 var questionImages = document.getElementById("questionImages");
-var answers = document.getElementById("answers");
+var answersDiv = document.getElementById("answers");
 var counter = document.getElementById("counter");
 var timeGauge = document.getElementById("timeGauge");
-var score = document.getElementById("score");
+var scoreDiv = document.getElementById("score");
 var scoreContainer = document.getElementById("scoreContainer");
 var lastQuestion = questions.length - 1;
 var questionTime = 10;
@@ -53,7 +53,7 @@ var runningQuestion = 0;
 // console log to check functionality
 
 
-startGame = function() {
+startGame = function () {
     runningQuestion = 0;
     renderQuestion();
     renderProgress();
@@ -61,52 +61,69 @@ startGame = function() {
     TIMER = setInterval(renderCounter, 1000); // 1000ms = 1s
 }
 
-$(".startButton").on("click", function() {
+$(".startButton").on("click", function () {
     startGame();
 })
 
 renderQuestion = function () {
-    questions.question;
+    $(answersDiv).empty();
+    // pull fromt he quest array, use runningQuestion as the index
+    var displayQuestion = questions[runningQuestion];
+    quizBody.style.display = "block";
+    questionsDiv.innerHTML = displayQuestion.question;
+
+    for (var i = 0; i < displayQuestion.answers.length; i++) {
+        answersDiv.innerHTML += displayQuestion.answers[i];
+        var answerButton = $("<button>");
+        answerButton.attr("data-number", i);
+        answerButton.html(displayQuestion.answers[i]);
+        $(answersDiv).append(answerButton);
+    }
+
+
+
+
+
     // question array
     runningQuestion++;
-        // running question
-        // increment runningQuestion
+    // running question
+    // increment runningQuestion
 }
 // start timer
 // display questions (random order)?
-    // place in questions div
+// place in questions div
 // diplay answers in buttons
 // display question image after answer is chosen
-    // wait 4 seconds before going to next question
+// wait 4 seconds before going to next question
 // restart timer after each question
 
 
 
 // set to restart after each question is answered
 var sec = 10
-var timer = setInterval(function() { 
+var timer = setInterval(function () {
     //put in message of time remaining
-   $('#hideMsg span').text(sec--);
-   if (sec == -1) {
-      clearInterval(timer);
-      // add in go to next question
-   }  
+    $('#hideMsg span').text(sec--);
+    if (sec == -1) {
+        clearInterval(timer);
+        // add in go to next question
+    }
 }, 1000);
 
-renderProgress = function() {
+renderProgress = function () {
     for (let quizProgress = 0; quizProgress <= lastQuestion; quizProgress++) {
-        progress.innerHTML += "<div class='prog' id=" + quizProgress + "></div>";
+        //progress.innerHTML += "<div class='prog' id=" + quizProgress + "></div>";
     }
 }
 
-renderCounter = function() {
+renderCounter = function () {
     if (count <= questionTime) {
         counter.innerHTML = count;
         count++
     } else {
         count = 0;
 
-        answerIsWrong();
+        //answerIsWrong();
         if (runningQuestion < lastQuestion) {
             runningQuestion++;
             renderQuestion();
@@ -118,7 +135,7 @@ renderCounter = function() {
     }
 }
 
-checkAnswer = function(answer) {
+checkAnswer = function (answer) {
     if (answer == questions[runningQuestion].correct) {
         right++;
         answerIsCorrect();
@@ -136,7 +153,7 @@ checkAnswer = function(answer) {
     }
 }
 
-score = function() {
+score = function () {
     scoreDiv.style.display = "block";
     const scorePerCent = Math.round(100 * right / questions.length);
     scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
