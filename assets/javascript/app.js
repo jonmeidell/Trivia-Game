@@ -66,7 +66,9 @@ $(".startButton").on("click", function() {
 })
 
 renderQuestion = function () {
+    questions.question;
     // question array
+    runningQuestion++;
         // running question
         // increment runningQuestion
 }
@@ -91,18 +93,15 @@ var timer = setInterval(function() {
    }  
 }, 1000);
 
-// not sure if I want to keep
 renderProgress = function() {
     for (let quizProgress = 0; quizProgress <= lastQuestion; quizProgress++) {
         progress.innerHTML += "<div class='prog' id=" + quizProgress + "></div>";
     }
 }
 
-// not sure if I want to keep or just alter
 renderCounter = function() {
     if (count <= questionTime) {
         counter.innerHTML = count;
-        timeGauge.style.width = count * gaugeUnit + "px";
         count++
     } else {
         count = 0;
@@ -124,7 +123,7 @@ checkAnswer = function(answer) {
         right++;
         answerIsCorrect();
     } else {
-        answerIsWrong();8
+        answerIsWrong();
     }
     count = 0;
     if (runningQuestion < lastQuestion) {
@@ -132,18 +131,10 @@ checkAnswer = function(answer) {
         renderQuestion();
     } else {
         // end the quiz and show score
-//        clearInterval(TIMER);
+        clearInterval(TIMER);
         score();
     }
 }
-
-//function answerIsCorrect() {
-//    document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
-//}
-
-//function answerIsWrong() {
-//    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
-//}
 
 score = function() {
     scoreDiv.style.display = "block";
