@@ -42,6 +42,7 @@ var scoreDiv = document.getElementById("score");
 var scoreContainer = document.getElementById("scoreContainer");
 var lastQuestion = questions.length - 1;
 var questionTime = 10;
+var interQuestionTime = 4;
 let TIMER;
 var right = 0;
 // should I use let or var
@@ -59,10 +60,20 @@ startGame = function () {
     renderProgress();
     renderCounter();
     TIMER = setInterval(renderCounter, 1000); // 1000ms = 1s
+        // take away start game button
+    // document.getElementsByClassName(".startGame").innerHTML.object.style.display == "none";
 }
 
 $(".startButton").on("click", function () {
     startGame();
+    // document.getElementsByClassName("startButton").innerHTML.object.style.display == "none";
+    // or
+        // var hideButton = document.getElementsByClassName(".startButton")
+        // hideButton.addEventListener("click", hide, false);
+        // function hide() {
+        //     document.getElementsByClassName(".startGame").style.display = "block";
+        //     this.style.display = "none";
+    }
 })
 
 renderQuestion = function () {
@@ -73,31 +84,21 @@ renderQuestion = function () {
     questionsDiv.innerHTML = displayQuestion.question;
 
     for (var i = 0; i < displayQuestion.answers.length; i++) {
-        answersDiv.innerHTML += displayQuestion.answers[i];
+            // this appears to make the answers come up outside the buttons
+        // answersDiv.innerHTML += displayQuestion.answers[i];
         var answerButton = $("<button>");
         answerButton.attr("data-number", i);
         answerButton.html(displayQuestion.answers[i]);
         $(answersDiv).append(answerButton);
     }
-
-
-
-
-
     // question array
     runningQuestion++;
     // running question
     // increment runningQuestion
 }
-// start timer
 // display questions (random order)?
-// place in questions div
-// diplay answers in buttons
 // display question image after answer is chosen
 // wait 4 seconds before going to next question
-// restart timer after each question
-
-
 
 // set to restart after each question is answered
 var sec = 10
@@ -157,4 +158,5 @@ score = function () {
     scoreDiv.style.display = "block";
     const scorePerCent = Math.round(100 * right / questions.length);
     scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
+    // show start button again
 }
