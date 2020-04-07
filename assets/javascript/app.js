@@ -37,46 +37,35 @@ var questionsDiv = document.getElementById("questions");
 var questionImages = document.getElementById("questionImages");
 var answersDiv = document.getElementById("answers");
 var counter = document.getElementById("counter");
-var timeGauge = document.getElementById("timeGauge");
 var scoreDiv = document.getElementById("score");
 var scoreContainer = document.getElementById("scoreContainer");
 var lastQuestion = questions.length - 1;
 var questionTime = 10;
-var interQuestionTime = 4;
 let TIMER;
 var right = 0;
+var wrong = 0;
+var unanswered = 0;
 // should I use let or var
-let count
+let timeLeft = questionTime;
 var runningQuestion = 0;
 
-// look through all functions to find errors
-// make sure everything is defined
-// console log to check functionality
-
+// not diplaying all the questions
 
 startGame = function () {
     runningQuestion = 0;
     renderQuestion();
     renderProgress();
     renderCounter();
-    TIMER = setInterval(renderCounter, 1000); // 1000ms = 1s
-        // take away start game button
-    // document.getElementsByClassName(".startGame").innerHTML.object.style.display == "none";
 }
 
 $(".startButton").on("click", function () {
     startGame();
-    // document.getElementsByClassName("startButton").innerHTML.object.style.display == "none";
-    // or
-        // var hideButton = document.getElementsByClassName(".startButton")
-        // hideButton.addEventListener("click", hide, false);
-        // function hide() {
-        //     document.getElementsByClassName(".startGame").style.display = "block";
-        //     this.style.display = "none";
-    }
+    // hides start button
+    $(".startButton").hide();
 })
 
 renderQuestion = function () {
+    renderCounter(); // 1000ms = 1s
     $(answersDiv).empty();
     // pull fromt he quest array, use runningQuestion as the index
     var displayQuestion = questions[runningQuestion];
@@ -84,9 +73,8 @@ renderQuestion = function () {
     questionsDiv.innerHTML = displayQuestion.question;
 
     for (var i = 0; i < displayQuestion.answers.length; i++) {
-            // this appears to make the answers come up outside the buttons
-        // answersDiv.innerHTML += displayQuestion.answers[i];
         var answerButton = $("<button>");
+        $(answerButton.addClass("answer-button"));
         answerButton.attr("data-number", i);
         answerButton.html(displayQuestion.answers[i]);
         $(answersDiv).append(answerButton);
@@ -98,18 +86,6 @@ renderQuestion = function () {
 }
 // display questions (random order)?
 // display question image after answer is chosen
-// wait 4 seconds before going to next question
-
-// set to restart after each question is answered
-var sec = 10
-var timer = setInterval(function () {
-    //put in message of time remaining
-    $('#hideMsg span').text(sec--);
-    if (sec == -1) {
-        clearInterval(timer);
-        // add in go to next question
-    }
-}, 1000);
 
 renderProgress = function () {
     for (let quizProgress = 0; quizProgress <= lastQuestion; quizProgress++) {
@@ -118,35 +94,33 @@ renderProgress = function () {
 }
 
 renderCounter = function () {
-    if (count <= questionTime) {
-        counter.innerHTML = count;
-        count++
-    } else {
-        count = 0;
-
-        //answerIsWrong();
-        if (runningQuestion < lastQuestion) {
-            runningQuestion++;
-            renderQuestion();
-        } else {
-            // end the quiz and show the score
+    TIMER = setInterval(function () {
+        timeLeft--;
+        if (timeLeft <= 0) {
+            unanswered++
+            // show correct
             clearInterval(TIMER);
-            score();
+            setTimeout(renderQuestion, 4000);
         }
-    }
+        counter.textContent = timeLeft;
+    });
 }
 
 checkAnswer = function (answer) {
-    if (answer == questions[runningQuestion].correct) {
+    console.log(questions[runningQuestion].correct);
+    // display question image
+    var displayQuestionImage = questions[runningQuestion];
+    quizBody.style.display = "block";
+    questionsImages.innerHTML = displayQuestion.image;
+    if (parseInt(answer) === parseInt(questions[runningQuestion].correct)) {
         right++;
-        answerIsCorrect();
+        // show that answer is correct
     } else {
-        answerIsWrong();
+        wrong++;
+        // show correct answer
     }
-    count = 0;
     if (runningQuestion < lastQuestion) {
-        runningQuestion++;
-        renderQuestion();
+        setTimeout(renderQuestion, 4000);
     } else {
         // end the quiz and show score
         clearInterval(TIMER);
@@ -158,5 +132,11 @@ score = function () {
     scoreDiv.style.display = "block";
     const scorePerCent = Math.round(100 * right / questions.length);
     scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
-    // show start button again
+    $(".startButton").show();
+    // fast, ect.
 }
+
+$("body").on("click", ".answer-button", function () {
+    var answer = $(this).attr("data-number");
+    checkAnswer(answer);
+});
