@@ -3,7 +3,7 @@ var questions = [
         question: "Which person leads the X-Men?",
         image: "assets/images/xavier.jpg",
         answers: ["Xavier", "Beast", "Jean Grey", "Colossus"],
-        correct: "3"
+        correct: "0"
     },
     {
         question: "Who was not on the original X-Men team?",
@@ -39,7 +39,6 @@ var answersDiv = document.getElementById("answers");
 var counter = document.getElementById("counter");
 var scoreDiv = document.getElementById("score");
 var scoreContainer = document.getElementById("scoreContainer");
-var lastQuestion = questions.length - 1;
 var questionTime = 10;
 let TIMER;
 var right = 0;
@@ -55,7 +54,6 @@ startGame = function () {
     runningQuestion = 0;
     renderQuestion();
     renderProgress();
-    renderCounter();
 }
 
 $(".startButton").on("click", function () {
@@ -66,6 +64,7 @@ $(".startButton").on("click", function () {
 
 renderQuestion = function () {
     renderCounter(); // 1000ms = 1s
+    $(questionImages).empty();
     $(answersDiv).empty();
     // pull fromt he quest array, use runningQuestion as the index
     var displayQuestion = questions[runningQuestion];
@@ -88,42 +87,49 @@ renderQuestion = function () {
 // display question image after answer is chosen
 
 renderProgress = function () {
-    for (let quizProgress = 0; quizProgress <= lastQuestion; quizProgress++) {
+    for (let quizProgress = 0; quizProgress <= questions.length; quizProgress++) {
         //progress.innerHTML += "<div class='prog' id=" + quizProgress + "></div>";
     }
 }
 
 renderCounter = function () {
+    timeLeft = 10;
     TIMER = setInterval(function () {
         timeLeft--;
         if (timeLeft <= 0) {
-            unanswered++
+            unanswered++;
             // show correct
             clearInterval(TIMER);
             setTimeout(renderQuestion, 4000);
         }
         counter.textContent = timeLeft;
-    });
+    }, 1000);
 }
 
 checkAnswer = function (answer) {
-    console.log(questions[runningQuestion].correct);
     // display question image
-    var displayQuestionImage = questions[runningQuestion];
+    var displayQuestionImage = questions[runningQuestion - 1];
     quizBody.style.display = "block";
-    questionsImages.innerHTML = displayQuestion.image;
-    if (parseInt(answer) === parseInt(questions[runningQuestion].correct)) {
+    var image = $("<img>");
+    console.log(displayQuestionImage.image);
+    $(image).attr("src", displayQuestionImage.image);
+    $(image).appendTo(questionImages);
+    // display correct answer is: 
+    if (parseInt(answer) === parseInt(questions[runningQuestion - 1].correct)) {
         right++;
         // show that answer is correct
     } else {
         wrong++;
         // show correct answer
     }
-    if (runningQuestion < lastQuestion) {
+    if (runningQuestion < questions.length) {
+        clearInterval(TIMER);
+        $("#answers").empty();
         setTimeout(renderQuestion, 4000);
     } else {
         // end the quiz and show score
         clearInterval(TIMER);
+        //clear out picture and answers
         score();
     }
 }
