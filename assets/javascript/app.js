@@ -66,7 +66,6 @@ renderQuestion = function () {
     renderCounter(); // 1000ms = 1s
     $(questionImages).empty();
     $(answersDiv).empty();
-    // pull fromt he quest array, use runningQuestion as the index
     var displayQuestion = questions[runningQuestion];
     quizBody.style.display = "block";
     questionsDiv.innerHTML = displayQuestion.question;
@@ -78,17 +77,12 @@ renderQuestion = function () {
         answerButton.html(displayQuestion.answers[i]);
         $(answersDiv).append(answerButton);
     }
-    // question array
     runningQuestion++;
-    // running question
-    // increment runningQuestion
 }
 // display questions (random order)?
-// display question image after answer is chosen
 
 renderProgress = function () {
     for (let quizProgress = 0; quizProgress <= questions.length; quizProgress++) {
-        //progress.innerHTML += "<div class='prog' id=" + quizProgress + "></div>";
     }
 }
 
@@ -107,20 +101,18 @@ renderCounter = function () {
 }
 
 checkAnswer = function (answer) {
-    // display question image
     var displayQuestionImage = questions[runningQuestion - 1];
     quizBody.style.display = "block";
     var image = $("<img>");
-    console.log(displayQuestionImage.image);
     $(image).attr("src", displayQuestionImage.image);
     $(image).appendTo(questionImages);
-    // display correct answer is: 
+    var correctAnswer = questions[runningQuestion - 1].answers[displayQuestionImage.correct];
+    $("<p> The correct answer is " + correctAnswer + "</p>").appendTo(questionImages);
+
     if (parseInt(answer) === parseInt(questions[runningQuestion - 1].correct)) {
         right++;
-        // show that answer is correct
     } else {
         wrong++;
-        // show correct answer
     }
     if (runningQuestion < questions.length) {
         clearInterval(TIMER);
@@ -129,7 +121,8 @@ checkAnswer = function (answer) {
     } else {
         // end the quiz and show score
         clearInterval(TIMER);
-        //clear out picture and answers
+        $(".choices").hide();
+        // clear out picture and answers
         score();
     }
 }
@@ -139,7 +132,6 @@ score = function () {
     const scorePerCent = Math.round(100 * right / questions.length);
     scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
     $(".startButton").show();
-    // fast, ect.
 }
 
 $("body").on("click", ".answer-button", function () {
