@@ -8,6 +8,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 40%;
+    
 }
 
 .startButton {
@@ -17,4 +18,5 @@ body {
 
 .container {
     color: darkgray;
+    height: 100%; display:table-cell; vertical-align: middle;
 }

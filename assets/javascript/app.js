@@ -39,14 +39,12 @@ var answersDiv = document.getElementById("answers");
 var counter = document.getElementById("counter");
 var scoreDiv = document.getElementById("score");
 var scoreContainer = document.getElementById("scoreContainer");
-var questionTime = 10;
 let TIMER;
-var right = 0;
-var wrong = 0;
-var unanswered = 0;
-// should I use let or var
-let timeLeft = questionTime;
-var runningQuestion = 0;
+let right = 0;
+let wrong = 0;
+let unanswered = 0;
+let timeLeft = 10;
+let runningQuestion = 0;
 
 // not diplaying all the questions
 
@@ -114,6 +112,7 @@ checkAnswer = function (answer) {
     } else {
         wrong++;
     }
+
     if (runningQuestion < questions.length) {
         clearInterval(TIMER);
         $("#answers").empty();
@@ -127,14 +126,14 @@ checkAnswer = function (answer) {
     }
 }
 
+$("body").on("click", ".answer-button", function () {
+    var answer = $(this).attr("data-number");
+    checkAnswer(answer);
+});
+
 score = function () {
     scoreDiv.style.display = "block";
     const scorePerCent = Math.round(100 * right / questions.length);
     scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
     $(".startButton").show();
-}
-
-$("body").on("click", ".answer-button", function () {
-    var answer = $(this).attr("data-number");
-    checkAnswer(answer);
-});
+};
