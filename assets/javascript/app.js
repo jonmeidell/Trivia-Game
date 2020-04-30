@@ -42,7 +42,7 @@ var scoreContainer = document.getElementById("scoreContainer");
 let TIMER;
 let right = 0;
 let wrong = 0;
-let unanswered = 0;
+// let unanswered = 0; possibly add in feature on later version
 let timeLeft = 10;
 let runningQuestion = 0;
 
@@ -61,6 +61,9 @@ $(".startButton").on("click", function () {
 })
 
 renderQuestion = function () {
+    console.log(runningQuestion);
+    // timer is hidden after each question is answered/timer runs-out
+    $("#timer").show();
     renderCounter(); // 1000ms = 1s
     $(questionImages).empty();
     $(answersDiv).empty();
@@ -77,7 +80,7 @@ renderQuestion = function () {
     }
     runningQuestion++;
 }
-// display questions (random order)?
+// display questions (random order) - add in feature in later version
 
 renderProgress = function () {
     for (let quizProgress = 0; quizProgress <= questions.length; quizProgress++) {
@@ -85,15 +88,35 @@ renderProgress = function () {
 }
 
 renderCounter = function () {
+    // makes sure timer starts displaying at 10
+    $("#counter").text("10");
     timeLeft = 10;
     TIMER = setInterval(function () {
         timeLeft--;
+
         if (timeLeft <= 0) {
-            unanswered++;
-            // show correct
+            wrong++; // change to unanswered when feature is added in
+            // shows correct answer
+            let displayQuestionImage = questions[runningQuestion - 1];
+            quizBody.style.display = "block";
+            let image = $("<img>");
+            $(image).attr("src", displayQuestionImage.image);
+            $(image).appendTo(questionImages);
+            let correctAnswer = questions[runningQuestion - 1].answers[displayQuestionImage.correct];
+            $("<p> The correct answer is " + correctAnswer + "</p>").appendTo(questionImages);
             clearInterval(TIMER);
+            $('#timer').hide();
             setTimeout(renderQuestion, 4000);
-        }
+
+            if (runningQuestion < questions.length) {
+
+            } else {
+                // end the quiz and show score
+                clearInterval(TIMER);
+                // clear out picture and answers
+                score();
+            }
+        };
         counter.textContent = timeLeft;
     }, 1000);
 }
@@ -116,11 +139,12 @@ checkAnswer = function (answer) {
     if (runningQuestion < questions.length) {
         clearInterval(TIMER);
         $("#answers").empty();
+        $('#timer').hide();
         setTimeout(renderQuestion, 4000);
     } else {
         // end the quiz and show score
         clearInterval(TIMER);
-        $(".choices").hide();
+        $("#timer").hide();
         // clear out picture and answers
         score();
     }
@@ -132,8 +156,11 @@ $("body").on("click", ".answer-button", function () {
 });
 
 score = function () {
+    $("#answers").empty();
+    $("#questions").empty();
+    $('#timer').hide();
     scoreDiv.style.display = "block";
     const scorePerCent = Math.round(100 * right / questions.length);
-    scoreDiv.innerHTML += "<p>" + scorePerCent + "%</p>";
+    scoreDiv.innerHTML += "<p>Your score is " + scorePerCent + "%</p>";
     $(".startButton").show();
 };
