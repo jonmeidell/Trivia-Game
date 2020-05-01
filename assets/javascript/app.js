@@ -14,7 +14,7 @@ var questions = [
     {
         question: "Who claimed to be the first mutant?",
         image: "assets/images/apocalypse.jpg",
-        answers: ["Woverine", "Xavier", "Apocalypse", "Magneto"],
+        answers: ["Wolverine", "Xavier", "Apocalypse", "Magneto"],
         correct: "2"
     },
     {
@@ -31,22 +31,20 @@ var questions = [
     }
 ];
 
-var startGame = document.getElementById("startGame");
-var quizBody = document.getElementById("quizBody");
-var questionsDiv = document.getElementById("questions");
-var questionImages = document.getElementById("questionImages");
-var answersDiv = document.getElementById("answers");
-var counter = document.getElementById("counter");
-var scoreDiv = document.getElementById("score");
-var scoreContainer = document.getElementById("scoreContainer");
+let startGame = document.getElementById("startGame");
+const quizBody = document.getElementById("quizBody");
+const questionsDiv = document.getElementById("questions");
+const questionImages = document.getElementById("questionImages");
+const answersDiv = document.getElementById("answers");
+const counter = document.getElementById("counter");
+const scoreDiv = document.getElementById("score");
+const scoreContainer = document.getElementById("scoreContainer");
 let TIMER;
 let right = 0;
 let wrong = 0;
 // let unanswered = 0; possibly add in feature on later version
 let timeLeft = 10;
 let runningQuestion = 0;
-
-// not diplaying all the questions
 
 startGame = function () {
     runningQuestion = 0;
@@ -56,23 +54,24 @@ startGame = function () {
 
 $(".startButton").on("click", function () {
     startGame();
-    // hides start button
     $(".startButton").hide();
+    $("#score").empty();
+    $("#right").empty();
+    $("#wrong").empty();
 })
 
 renderQuestion = function () {
-    console.log(runningQuestion);
     // timer is hidden after each question is answered/timer runs-out
     $("#timer").show();
     renderCounter(); // 1000ms = 1s
     $(questionImages).empty();
     $(answersDiv).empty();
-    var displayQuestion = questions[runningQuestion];
+    let displayQuestion = questions[runningQuestion];
     quizBody.style.display = "block";
     questionsDiv.innerHTML = displayQuestion.question;
-
-    for (var i = 0; i < displayQuestion.answers.length; i++) {
-        var answerButton = $("<button>");
+    // line 74 gets messed up if last question is unanswered
+    for (let i = 0; i < displayQuestion.answers.length; i++) {
+        let answerButton = $("<button>");
         $(answerButton.addClass("answer-button"));
         answerButton.attr("data-number", i);
         answerButton.html(displayQuestion.answers[i]);
@@ -106,13 +105,14 @@ renderCounter = function () {
             $("<p> The correct answer is " + correctAnswer + "</p>").appendTo(questionImages);
             clearInterval(TIMER);
             $('#timer').hide();
-            setTimeout(renderQuestion, 4000);
-
+            // if last question insn't answered, continues with code
             if (runningQuestion < questions.length) {
-
+                // only asks for a new question when there are questions left
+                setTimeout(renderQuestion, 4000);
             } else {
                 // end the quiz and show score
                 clearInterval(TIMER);
+                $("#timer").hide();
                 // clear out picture and answers
                 score();
             }
@@ -122,12 +122,12 @@ renderCounter = function () {
 }
 
 checkAnswer = function (answer) {
-    var displayQuestionImage = questions[runningQuestion - 1];
+    let displayQuestionImage = questions[runningQuestion - 1];
     quizBody.style.display = "block";
-    var image = $("<img>");
+    let image = $("<img>");
     $(image).attr("src", displayQuestionImage.image);
     $(image).appendTo(questionImages);
-    var correctAnswer = questions[runningQuestion - 1].answers[displayQuestionImage.correct];
+    let correctAnswer = questions[runningQuestion - 1].answers[displayQuestionImage.correct];
     $("<p> The correct answer is " + correctAnswer + "</p>").appendTo(questionImages);
 
     if (parseInt(answer) === parseInt(questions[runningQuestion - 1].correct)) {
@@ -151,7 +151,7 @@ checkAnswer = function (answer) {
 }
 
 $("body").on("click", ".answer-button", function () {
-    var answer = $(this).attr("data-number");
+    let answer = $(this).attr("data-number");
     checkAnswer(answer);
 });
 
