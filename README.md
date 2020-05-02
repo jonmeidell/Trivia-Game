@@ -12,6 +12,4 @@ Few minor fixes that need to be done:
   3 - show if you answered "correct" or "incorrect"
   4 - finish functionality to keep track of timer runout on questions and prompt the player that they "ran out of time"
   5 - make buttons and layout look better:
-      - add hover effects
-      - better spacing
       - make layout sit move centered vertically
