@@ -11,4 +11,4 @@ Few minor fixes that need to be done:
   * _finish functionality to keep track of timer runout on questions and prompt the player that they "ran out of time"_
   * _get rid of a few Javascript bugs regarding game restarting and questions/time/picture not displaying correctly_
 
-![X-Men](https://jonmeidell.github.io/X-Men/assets/images/background.jpg)
+![X-Men](https://jonmeidell.github.io/X-Men/assets/images/readme.jpg)
