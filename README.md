@@ -14,7 +14,7 @@ You are on the clock!  Answer all of the questions before time runs out!  Each q
 
 <hr>
 
-<span style="color:red">Few minor fixes that need to be done:</span>
+Few minor fixes that need to be done:
   * _have questions display in a random order_
   * _add more questions_
   * _show if you answered "correct" or "incorrect"_
