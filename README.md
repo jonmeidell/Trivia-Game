@@ -1,6 +1,6 @@
 <div align="center">
 
-![X-Men](https://jonmeidell.github.io/assets/images/x-men.png)
+![X-Men](https://jonmeidell.github.io/assets/images/x-men-logo.jpg)
 # Trivia-Game
 
 #### Welcome to my X-Men themed timed trivia game.
