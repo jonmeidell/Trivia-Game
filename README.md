@@ -1,9 +1,9 @@
 <div align="center">
 
 ![X-Men](https://jonmeidell.github.io/assets/images/x-men-logo.jpg)
-# Trivia-Game
+# `Trivia-Game`
 
-#### Welcome to my X-Men themed timed trivia game.
+#### `Welcome to my X-Men themed timed trivia game.`
 </div>
 
 You are on the clock!  Answer all of the questions before time runs out!  Each question has a 10 second time limit, and will pause for 4 seconds to let the player see what the correct answer is.
@@ -15,7 +15,7 @@ You are on the clock!  Answer all of the questions before time runs out!  Each q
 
 <hr>
 
-Few minor fixes that need to be done:
+#### `Few minor fixes that need to be done:`
   * _have questions display in a random order_
   * _add more questions_
   * _show if you answered "correct" or "incorrect"_
